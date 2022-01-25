@@ -28,7 +28,19 @@ class BirdsController < ApplicationController
         bird = Bird.find_by(id: params[:id])
         if bird 
             bird.update(bird_filter)
-            render json: bird, status: :ok 
+            render json: bird, status: :accepted 
+        else 
+            render json: {error: "The bird you find is not in the database!"}, status: :not_found
+        end
+    end
+
+    def destroy 
+        # search the bird with the id 
+        bird = Bird.find_by(id: params[:id])
+        if bird 
+            bird.destroy 
+            head :no_content
+            # render json: bird, status: :ok 
         else 
             render json: {error: "The bird you find is not in the database!"}, status: :not_found
         end
